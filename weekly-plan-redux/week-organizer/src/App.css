@@ -1,0 +1,47 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    color: whitesmoke;
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.task-form-input {
+    padding: 8px;
+}
+
+.task-form-select {
+    padding: 8px;
+}
+
+.task-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-input {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text-input {
+    padding: 8px;
+    width: 100%;
+
+}
+
+.time-input {
+    padding: 5px;
+}
