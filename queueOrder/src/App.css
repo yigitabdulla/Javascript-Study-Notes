@@ -1,0 +1,55 @@
+body {
+  background-color: #242424;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  min-height  : 100vh;
+}
+
+input {
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid rgb(156, 156, 156);
+  color: whitesmoke;
+}
+
+button {
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid rgb(156, 156, 156);
+  color: whitesmoke;
+  cursor: pointer;
+}
+
+.queues {
+  display: flex;
+  gap: 10px;
+}
+
+.queue {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 150px;
+  color: whitesmoke;
+  border: 1px solid rgb(156, 156, 156);
+  overflow-y: auto;
+
+}
+
+@media only screen and (max-width: 600px) {
+  .queues {
+    flex-direction: column;
+  }
+}
