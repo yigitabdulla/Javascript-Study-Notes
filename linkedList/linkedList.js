@@ -121,6 +121,23 @@ class LinkedList {
         this.tail = null
         this.length = 0
     }
+
+    reverse() {
+        let current = this.head;
+        this.tail = this.head; // The old head will become the new tail
+        let prev = null;
+        let next = null;
+    
+        while (current !== null) {
+            next = current.next; // Store the next node
+            current.next = prev; // Reverse the pointer
+            prev = current; // Move prev to current
+            current = next; // Move current to next
+        }
+    
+        this.head = prev; // The last processed node is the new head
+    }
+    
 }
 
 const myLinkedList = new LinkedList(1)
@@ -129,7 +146,6 @@ myLinkedList.push(2)
 myLinkedList.push(3)
 myLinkedList.push(4)
 myLinkedList.push(5)
-myLinkedList.insert(1,100)
-console.log(myLinkedList)
-myLinkedList.clear()
+myLinkedList.reverse()
+
 console.log(myLinkedList)
