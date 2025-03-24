@@ -25,10 +25,10 @@ function App() {
     if(number) chars += numberInputs
     if(special) chars += specialInputs
 
-    if(chars.length <= 0) return "Can not generate password!"
+    if(chars.length <= 0) return alert("Can not generate password!")
 
-    if(length < 10) return "Length must be bigger than 10"
-    if(length > 40) return "Length must be less than 40"
+    if(length < 10) return alert("Length must be bigger than 10")
+    if(length > 40) return alert("Length must be less than 40")
 
     for (let index = 0; index < length; index++) {
       pw += chars[Math.floor(Math.random()*chars.length)]
