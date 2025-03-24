@@ -1,79 +1,90 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [password, setPassword] = useState("");
+  const [length, setLength] = useState(10);
+  const [options, setOptions] = useState({
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+  });
 
-  const [password,setPassword] = useState("")
-  const [length,setLength] = useState(10)
-
-  const [uppercase, setUppercase] = useState(false)
-  const [lowercase, setLowercase] = useState(false)
-  const [number, setNumber] = useState(false)
-  const [special, setSpecial] = useState(false)
-
-  const numberInputs = "1234567890"
-  const lowercaseInputs= "abcdefghijklmnopqrstuvwxyz"
-  const uppercaseInputs= "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  const specialInputs= "!@#$%^&*()_+-=[]{}|;:'\,.<>?/~"
+  const charSets = {
+    uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    lowercase: "abcdefghijklmnopqrstuvwxyz",
+    number: "1234567890",
+    special: "!@#$%^&*()_+-=[]{}|;:'\",.<>?/~",
+  };
 
   const generatePassword = () => {
-    let chars = []
-    let pw = ""
+    let chars = "";
+    let requiredChars = [];
+    let pw = "";
 
-    if(uppercase) chars += uppercaseInputs
-    if(lowercase) chars += lowercaseInputs
-    if(number) chars += numberInputs
-    if(special) chars += specialInputs
+    // Ensure at least one character from each selected type
+    Object.keys(options).forEach((key) => {
+      if (options[key]) {
+        chars += charSets[key];
+        requiredChars.push(charSets[key][Math.floor(Math.random() * charSets[key].length)]);
+      }
+    });
 
-    if(chars.length <= 0) return alert("Can not generate password!")
+    if (!chars) return alert("Cannot generate password! Select at least one option.");
+    if (length < 10 || length > 40) return alert("Length must be between 10 and 40.");
 
-    if(length < 10) return alert("Length must be bigger than 10")
-    if(length > 40) return alert("Length must be less than 40")
-
-    for (let index = 0; index < length; index++) {
-      pw += chars[Math.floor(Math.random()*chars.length)]
-      
+    // Generate remaining characters
+    for (let i = requiredChars.length; i < length; i++) {
+      pw += chars[Math.floor(Math.random() * chars.length)];
     }
 
-    setPassword(pw)
+    // Shuffle the password to mix required characters
+    pw = [...requiredChars, ...pw].sort(() => Math.random() - 0.5).join("");
 
-  }
+    setPassword(pw);
+  };
 
-  console.log(password)
+  const handleOptionChange = (key) => {
+    setOptions((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   return (
-    <>
-      <div className="main-container">
-        <div className="checkbox-container">
-          <div className='checkboxes'>
-            <label htmlFor="uppercase" >Uppercase</label>
-            <input onChange={() => setUppercase(!uppercase)} name='uppercase' type="checkbox" />
+    <div className="main-container">
+      <div className="checkbox-container">
+        {Object.keys(options).map((key) => (
+          <div key={key} className="checkboxes">
+            <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+            <input
+              type="checkbox"
+              name={key}
+              checked={options[key]}
+              onChange={() => handleOptionChange(key)}
+            />
           </div>
-          <div className='checkboxes'>
-            <label htmlFor="lowercase" >Lowercase</label>
-            <input onChange={() => setLowercase(!lowercase)} name='lowercase' type="checkbox" />
-          </div>
-          <div className='checkboxes'>
-            <label htmlFor="number" >Number</label>
-            <input onChange={() => setNumber(!number)} name='number' type="checkbox" />
-          </div>
-          <div className='checkboxes'>
-            <label htmlFor="special" >Special character</label>
-            <input onChange={() => setSpecial(!special)} name='special' type="checkbox" />
-          </div>
-        </div>
-        <div className='button-container'>
-          <button className='btn' onClick={() => generatePassword(length)}>Generate Password</button>
-          <button className='btn' onClick={() => setPassword("")}>Clear Password</button>
-        </div>
-        <div className="password-container">
-          <input placeholder='Password' value={password} className='passwordInput' type="text" />
-          <input placeholder='Length' value={length} onChange={(e) => setLength(e.target.value)} className='passwordInput' type="number" min={10} max={40} />
-          <button>Copy</button>
-        </div>
+        ))}
       </div>
-    </>
-  )
+
+      <div className="button-container">
+        <button className="btn" onClick={generatePassword}>Generate Password</button>
+        <button className="btn" onClick={() => setPassword("")}>Clear Password</button>
+      </div>
+
+      <div className="password-container">
+        <input placeholder="Password" value={password} readOnly className="passwordInput" />
+        <input
+          placeholder="Length"
+          type="number"
+          value={length}
+          onChange={(e) => setLength(Math.max(10, Math.min(40, Number(e.target.value))))}
+          className="passwordInput"
+          min={10}
+          max={40}
+        />
+        <button onClick={() => navigator.clipboard.writeText(password)}>Copy</button>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
