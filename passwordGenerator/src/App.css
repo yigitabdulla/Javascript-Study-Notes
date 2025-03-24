@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+  background-color: #242424;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.main-contaier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 100%;
+  gap: 20px;
+}
+
+.checkbox-container {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 10x;
+  color: whitesmoke;
+}
+
+.checkboxes {
+  width: 300px;
+  border: 1px solid gray;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.button-container {
+  display: flex;
+}
+
+.btn {
+  width: 100%;
+  padding: 5px;
+  background-color: transparent;
+  color: whitesmoke;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+
+.password-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.passwordInput{
+  width: 100%;
+  padding: 5px;
+  background-color: rgba(128, 128, 128, 0.19);
+  border: 1px solid gray;
+  color: whitesmoke;
+}
+
+.passwordInput:nth-child(2){
+  width: 100px;
+  padding: 5px;
+  background-color: rgba(128, 128, 128, 0.19);
+  border: 1px solid gray;
+  color: whitesmoke;
+}
+
+.password-container button{
+  width: 50px;
+  background-color: transparent;
+  color: whitesmoke;
+  border: 1px solid gray;
+  cursor: pointer;
+}
