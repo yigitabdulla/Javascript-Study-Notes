@@ -1,9 +1,9 @@
 const isPalindrome = (word) => {
     reverse = word.split("").reverse().join("")
     if(reverse == word) {
-        return word + " is polindrome!"
+        return true
     } else {
-        return word + " is not polindrome!"
+        return false
     }
 }
 
