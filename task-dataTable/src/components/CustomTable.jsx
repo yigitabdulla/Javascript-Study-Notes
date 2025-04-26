@@ -34,16 +34,36 @@ export default function CustomTable() {
     setSearch(prev => ({ ...prev, [column]: value }));
   };
 
-  useEffect(() => {
+  const handleRangeSearch = (column, bound, value) => {
+    setSearch(prev => ({
+      ...prev,
+      [column]: {
+        ...prev[column],
+        [bound]: value ? Number(value) : ''
+      }
+    }));
+  };
 
-    //column specific filtering
+
+  useEffect(() => {
     let filtered = originalData.filter(item =>
-      dynamicColumns.every(col =>
-        String(item[col]).toLowerCase().includes((search[col] || '').toLowerCase())
-      )
+      dynamicColumns.every(col => {
+        const searchValue = search[col] || '';
+        const itemValue = String(item[col]).toLowerCase();
+
+        // Special case: if the column is 'age' and searchValue is a range
+        if (col === 'age' && typeof searchValue === 'object') {
+          const { min, max } = searchValue;
+          const age = Number(item[col]);
+          return (!min || age >= min) && (!max || age <= max);
+        }
+
+        // Normal string filtering
+        return itemValue.includes(searchValue.toLowerCase());
+      })
     );
 
-    //global filtering
+    // Global filtering
     if (globalSearch.trim()) {
       filtered = filtered.filter(item =>
         dynamicColumns.some(col =>
@@ -53,8 +73,9 @@ export default function CustomTable() {
     }
 
     setFilteredData(filtered);
-    setCurrentPage(1); // Reset to page 1 on new search
+    setCurrentPage(1);
   }, [search, globalSearch, originalData]);
+
 
   const handleSort = (column) => {
     setSelectedColumn(column);
@@ -64,21 +85,28 @@ export default function CustomTable() {
 
   //sorting data
   const sortData = (column, direction) => {
+
     const sorted = [...filteredData].sort((a, b) => {
       const aVal = a[column];
       const bVal = b[column];
+
+      // If the column values are strings, sort them alphabetically
       if (typeof aVal === 'string') {
         return direction === 'asc'
-          ? aVal.localeCompare(bVal)
-          : bVal.localeCompare(aVal);
+          ? aVal.localeCompare(bVal) // Ascending: a before b
+          : bVal.localeCompare(aVal); // Descending: b before a
       }
+
+      // If the column values are numbers (or anything else), sort numerically
       return direction === 'asc' ? aVal - bVal : bVal - aVal;
     });
+
 
     setFilteredData(sorted);
     setIsSortVisible(false);
     setSelectedColumn('');
   };
+
 
 
   //changing column visibility
@@ -104,44 +132,52 @@ export default function CustomTable() {
     }
   };
 
-  const handleDragStart = (index) => {
-    //console.log(index)
+  const handleDragStart = (index, e) => {
+    if (isResizing) {
+      e.preventDefault(); // Prevent drag if resizing
+      return;
+    }
     setDraggedColIndex(index);
+
   };
-  
-  const handleDrop = (index) => {
-    // If no column is dragged or dropped onto itself, do nothing
-    if (draggedColIndex === null || draggedColIndex === index) return;
-  
+
+  const handleDrop = (e, index) => {
+
+    if (isResizing || draggedColIndex === null || draggedColIndex === index) {
+      return;
+    }
+
     // Make copies of the current dynamicColumns, visibleColumns, and columnWidths arrays
     const newDynamicColumns = [...dynamicColumns];
     const newVisibleColumns = [...visibleColumns];
     const newColumnWidths = [...columnWidths];
-  
+
     // Remove the dragged column's data (column name, visibility, width) from its original position
     const movedColumn = newDynamicColumns.splice(draggedColIndex, 1)[0];
     const movedVisibility = newVisibleColumns.splice(draggedColIndex, 1)[0];
     const movedWidth = newColumnWidths.splice(draggedColIndex, 1)[0];
-  
+
     // Insert the dragged column's data into the new position
     newDynamicColumns.splice(index, 0, movedColumn);
     newVisibleColumns.splice(index, 0, movedVisibility);
     newColumnWidths.splice(index, 0, movedWidth);
-  
+
     // Clear the dragged column index after drop is done
     setDraggedColIndex(null);
-  
+
     // Update the states with the new order
     setDynamicColumns(newDynamicColumns);
     setVisibleColumns(newVisibleColumns);
     setColumnWidths(newColumnWidths);
   };
-  
-  
+
+
+
 
   return (
     <div className="table-wrapper">
       <h1>User Table</h1>
+
 
       <div className="table-top">
         <input
@@ -182,10 +218,18 @@ export default function CustomTable() {
                   visibleColumns[idx] && (
                     <TableCell
                       key={column}
-                      draggable
-                      onDragStart={() => handleDragStart(idx)}
-                      onDragOver={(e) => e.preventDefault()}
-                      onDrop={() => handleDrop(idx)}
+                      draggable={!isResizing} // Disable dragging when resizing
+                      onDragStart={(e) => handleDragStart(idx, e)} // Pass the event
+                      onDragOver={(e) => {
+                        if (!isResizing) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onDrop={(e) => {
+                        if (!isResizing) {
+                          handleDrop(e, idx);
+                        }
+                      }}
                       style={{ padding: 0, height: '80px' }}
                     >
 
@@ -194,12 +238,14 @@ export default function CustomTable() {
                         height={60}
                         axis="x"
                         resizeHandles={['e']}
-                        onResizeStart={() => setIsResizing(true)}
+                        onResizeStart={() => {
+                          setIsResizing(true); // Set resizing to true when resize starts
+                        }}
                         onResizeStop={(e, { size }) => {
                           const updated = [...columnWidths];
                           updated[idx] = size.width;
                           setColumnWidths(updated);
-                          setIsResizing(false)
+                          setIsResizing(false); // Reset when resize ends
                         }}
                         minConstraints={[50, 60]}
                         maxConstraints={[600, 60]}
@@ -220,13 +266,33 @@ export default function CustomTable() {
                               </div>
                             )}
                           </div>
-                          <input
-                            type="text"
-                            placeholder={`Search ${column}`}
-                            value={search[column] || ''}
-                            onChange={(e) => handleSearch(column, e.target.value)}
-                            className="search-input"
-                          />
+                          {column === 'age' ? (
+                            <div className="range-inputs">
+                              <input
+                                type="number"
+                                placeholder="Min"
+                                value={search[column]?.min || ''}
+                                onChange={(e) => handleRangeSearch(column, 'min', e.target.value)}
+                                className="range-input"
+                              />
+                              <input
+                                type="number"
+                                placeholder="Max"
+                                value={search[column]?.max || ''}
+                                onChange={(e) => handleRangeSearch(column, 'max', e.target.value)}
+                                className="range-input"
+                              />
+                            </div>
+                          ) : (
+                            <input
+                              type="text"
+                              placeholder={`Search ${column}`}
+                              value={search[column] || ''}
+                              onChange={(e) => handleSearch(column, e.target.value)}
+                              className="search-input"
+                            />
+                          )}
+
                         </div>
                       </ResizableBox>
                     </TableCell>

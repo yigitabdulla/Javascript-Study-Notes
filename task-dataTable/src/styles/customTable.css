@@ -102,6 +102,19 @@
     border: 1px solid #ddd;
 }
 
+.range-inputs {
+    display: flex;
+    gap: 5px;
+}
+
+.range-input {
+    min-width: 50px;
+    padding: 4px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
 .pagination-container {
     width: 100%;
     display: flex;
