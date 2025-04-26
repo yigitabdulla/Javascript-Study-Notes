@@ -5,7 +5,7 @@ import '../styles/table.css';
 export default function Table() {
     const dynamicColumns = Object.keys(users[0] || {});
     const [data, setData] = useState(users);
-    const [filteredData, setFilteredData] = useState(users); // New state for filtered data
+    const [filteredData, setFilteredData] = useState(users);
     const [search, setSearch] = useState({});
     const [globalSearch, setGlobalSearch] = useState('');
     const [visibleCols, setVisibleCols] = useState([...dynamicColumns]);
