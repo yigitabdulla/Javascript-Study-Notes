@@ -1,0 +1,202 @@
+[
+    {
+      "id": 1,
+      "name": "NVIDIA RTX 4090",
+      "category": "Graphics Card",
+      "brand": "NVIDIA",
+      "price": 1599.99,
+      "stock": 15,
+      "status": "In Stock",
+      "lastRestock": "2023-11-15"
+    },
+    {
+      "id": 2,
+      "name": "AMD Ryzen 9 7950X",
+      "category": "Processor",
+      "brand": "AMD",
+      "price": 699.99,
+      "stock": 8,
+      "status": "Low Stock",
+      "lastRestock": "2023-11-10"
+    },
+    {
+      "id": 3,
+      "name": "Corsair Vengeance RGB 32GB",
+      "category": "RAM",
+      "brand": "Corsair",
+      "price": 129.99,
+      "stock": 42,
+      "status": "In Stock",
+      "lastRestock": "2023-11-05"
+    },
+    {
+      "id": 4,
+      "name": "Samsung 980 Pro 1TB",
+      "category": "SSD",
+      "brand": "Samsung",
+      "price": 89.99,
+      "stock": 0,
+      "status": "Out of Stock",
+      "lastRestock": "2023-10-28"
+    },
+    {
+      "id": 5,
+      "name": "ASUS ROG Strix Z790-E",
+      "category": "Motherboard",
+      "brand": "ASUS",
+      "price": 449.99,
+      "stock": 5,
+      "status": "Low Stock",
+      "lastRestock": "2023-11-12"
+    },
+    {
+      "id": 6,
+      "name": "Noctua NH-D15",
+      "category": "CPU Cooler",
+      "brand": "Noctua",
+      "price": 109.95,
+      "stock": 22,
+      "status": "In Stock",
+      "lastRestock": "2023-11-08"
+    },
+    {
+      "id": 7,
+      "name": "Seasonic PRIME TX-1000",
+      "category": "Power Supply",
+      "brand": "Seasonic",
+      "price": 299.99,
+      "stock": 3,
+      "status": "Low Stock",
+      "lastRestock": "2023-11-01"
+    },
+    {
+      "id": 8,
+      "name": "Lian Li PC-O11 Dynamic",
+      "category": "Case",
+      "brand": "Lian Li",
+      "price": 149.99,
+      "stock": 18,
+      "status": "In Stock",
+      "lastRestock": "2023-10-30"
+    },
+    {
+      "id": 9,
+      "name": "Logitech G Pro X",
+      "category": "Peripheral",
+      "brand": "Logitech",
+      "price": 129.99,
+      "stock": 0,
+      "status": "Discontinued",
+      "lastRestock": "2023-09-15"
+    },
+    {
+      "id": 10,
+      "name": "Intel Core i9-13900K",
+      "category": "Processor",
+      "brand": "Intel",
+      "price": 589.99,
+      "stock": 11,
+      "status": "In Stock",
+      "lastRestock": "2023-11-14"
+    },
+    {
+      "id": 11,
+      "name": "G.Skill Trident Z5 RGB 64GB",
+      "category": "RAM",
+      "brand": "G.Skill",
+      "price": 249.99,
+      "stock": 7,
+      "status": "Low Stock",
+      "lastRestock": "2023-11-09"
+    },
+    {
+      "id": 12,
+      "name": "WD Black SN850X 2TB",
+      "category": "SSD",
+      "brand": "Western Digital",
+      "price": 159.99,
+      "stock": 25,
+      "status": "In Stock",
+      "lastRestock": "2023-11-03"
+    },
+    {
+      "id": 13,
+      "name": "MSI MPG B550 Gaming Edge",
+      "category": "Motherboard",
+      "brand": "MSI",
+      "price": 179.99,
+      "stock": 0,
+      "status": "Out of Stock",
+      "lastRestock": "2023-10-25"
+    },
+    {
+      "id": 14,
+      "name": "Corsair iCUE H150i Elite",
+      "category": "CPU Cooler",
+      "brand": "Corsair",
+      "price": 199.99,
+      "stock": 14,
+      "status": "In Stock",
+      "lastRestock": "2023-11-07"
+    },
+    {
+      "id": 15,
+      "name": "EVGA SuperNOVA 850 G6",
+      "category": "Power Supply",
+      "brand": "EVGA",
+      "price": 159.99,
+      "stock": 9,
+      "status": "In Stock",
+      "lastRestock": "2023-11-11"
+    },
+    {
+      "id": 16,
+      "name": "Fractal Design Torrent",
+      "category": "Case",
+      "brand": "Fractal Design",
+      "price": 199.99,
+      "stock": 4,
+      "status": "Low Stock",
+      "lastRestock": "2023-10-29"
+    },
+    {
+      "id": 17,
+      "name": "Razer BlackWidow V3",
+      "category": "Peripheral",
+      "brand": "Razer",
+      "price": 139.99,
+      "stock": 21,
+      "status": "In Stock",
+      "lastRestock": "2023-11-02"
+    },
+    {
+      "id": 18,
+      "name": "AMD Radeon RX 7900 XTX",
+      "category": "Graphics Card",
+      "brand": "AMD",
+      "price": 999.99,
+      "stock": 6,
+      "status": "Low Stock",
+      "lastRestock": "2023-11-13"
+    },
+    {
+      "id": 19,
+      "name": "Crucial P5 Plus 1TB",
+      "category": "SSD",
+      "brand": "Crucial",
+      "price": 109.99,
+      "stock": 33,
+      "status": "In Stock",
+      "lastRestock": "2023-11-04"
+    },
+    {
+      "id": 20,
+      "name": "NZXT H7 Flow",
+      "category": "Case",
+      "brand": "NZXT",
+      "price": 129.99,
+      "stock": 12,
+      "status": "In Stock",
+      "lastRestock": "2023-10-31"
+    }
+  ]

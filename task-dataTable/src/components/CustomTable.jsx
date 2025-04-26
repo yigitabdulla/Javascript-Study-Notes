@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import dummyData from '../data/data.json';
+import dummyData from '../data/data2.json';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -30,10 +30,12 @@ export default function CustomTable() {
   const [isResizing, setIsResizing] = useState(false);
   const [draggedColIndex, setDraggedColIndex] = useState(null);
 
+  //State change for single column search
   const handleSearch = (column, value) => {
     setSearch(prev => ({ ...prev, [column]: value }));
   };
 
+  //Min-max range search for age column
   const handleRangeSearch = (column, bound, value) => {
     setSearch(prev => ({
       ...prev,
@@ -45,6 +47,7 @@ export default function CustomTable() {
   };
 
 
+  //handling data filters
   useEffect(() => {
     let filtered = originalData.filter(item =>
       dynamicColumns.every(col => {
@@ -52,7 +55,7 @@ export default function CustomTable() {
         const itemValue = String(item[col]).toLowerCase();
 
         // Special case: if the column is 'age' and searchValue is a range
-        if (col === 'age' && typeof searchValue === 'object') {
+        if (col === 'price' && typeof searchValue === 'object') {
           const { min, max } = searchValue;
           const age = Number(item[col]);
           return (!min || age >= min) && (!max || age <= max);
@@ -77,6 +80,7 @@ export default function CustomTable() {
   }, [search, globalSearch, originalData]);
 
 
+  //opening sort selector and setting the corresponding column
   const handleSort = (column) => {
     setSelectedColumn(column);
     setIsSortVisible(!isSortVisible);
@@ -132,6 +136,7 @@ export default function CustomTable() {
     }
   };
 
+
   const handleDragStart = (index, e) => {
     if (isResizing) {
       e.preventDefault(); // Prevent drag if resizing
@@ -147,30 +152,29 @@ export default function CustomTable() {
       return;
     }
 
-    // Make copies of the current dynamicColumns, visibleColumns, and columnWidths arrays
+    //make copies of the current dynamicColumns, visibleColumns, and columnWidths arrays
     const newDynamicColumns = [...dynamicColumns];
     const newVisibleColumns = [...visibleColumns];
     const newColumnWidths = [...columnWidths];
 
-    // Remove the dragged column's data (column name, visibility, width) from its original position
+    //remove the dragged column's data (column name, visibility, width) from its original position
     const movedColumn = newDynamicColumns.splice(draggedColIndex, 1)[0];
     const movedVisibility = newVisibleColumns.splice(draggedColIndex, 1)[0];
     const movedWidth = newColumnWidths.splice(draggedColIndex, 1)[0];
 
-    // Insert the dragged column's data into the new position
+    //insert the dragged column's data into the new position
     newDynamicColumns.splice(index, 0, movedColumn);
     newVisibleColumns.splice(index, 0, movedVisibility);
     newColumnWidths.splice(index, 0, movedWidth);
 
-    // Clear the dragged column index after drop is done
+    //clear the dragged column index after drop is done
     setDraggedColIndex(null);
 
-    // Update the states with the new order
+    //update the states with the new order
     setDynamicColumns(newDynamicColumns);
     setVisibleColumns(newVisibleColumns);
     setColumnWidths(newColumnWidths);
   };
-
 
   const handleDelete = (id) => {
     const newData = filteredData.filter(data => data.id !== id)
@@ -267,7 +271,7 @@ export default function CustomTable() {
                               </div>
                             )}
                           </div>
-                          {column === 'age' ? (
+                          {column === 'price' ? (
                             <div className="range-inputs">
                               <input
                                 type="number"
