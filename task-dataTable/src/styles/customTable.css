@@ -88,6 +88,9 @@
 }
 
 .sort-options span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     cursor: pointer;
     color: #1976d2;
     font-weight: bold;
@@ -153,6 +156,14 @@
     justify-content: center;
     gap: 5px;
     align-self: flex-end;
+}
+
+.data-row:nth-child(even) {
+    background-color: rgba(128, 128, 128, 0.09);
+}
+
+.data-row:hover {
+    background-color: rgba(163, 188, 226, 0.304);
 }
 
 @media (max-width: 768px) {

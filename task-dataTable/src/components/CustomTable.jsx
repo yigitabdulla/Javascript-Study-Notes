@@ -172,7 +172,10 @@ export default function CustomTable() {
   };
 
 
-
+  const handleDelete = (id) => {
+    const newData = filteredData.filter(data => data.id !== id)
+    setFilteredData(newData)
+  }
 
   return (
     <div className="table-wrapper">
@@ -230,7 +233,7 @@ export default function CustomTable() {
                           handleDrop(e, idx);
                         }
                       }}
-                      style={{ padding: 0, height: '80px' }}
+                      style={{ padding: 5, height: '80px' }}
                     >
 
                       <ResizableBox
@@ -247,8 +250,6 @@ export default function CustomTable() {
                           setColumnWidths(updated);
                           setIsResizing(false); // Reset when resize ends
                         }}
-                        minConstraints={[50, 60]}
-                        maxConstraints={[600, 60]}
                       >
                         <div className="column-header">
                           <div>
@@ -261,8 +262,8 @@ export default function CustomTable() {
                             </span>
                             {isSortVisible && selectedColumn === column && (
                               <div className="sort-options">
-                                <span onClick={() => sortData(column, 'asc')}>Asc▲</span>
-                                <span onClick={() => sortData(column, 'dsc')}>Dsc▼</span>
+                                <span onClick={() => sortData(column, 'asc')}>Ascending <p>▲</p></span>
+                                <span onClick={() => sortData(column, 'dsc')}>Descending <p>▼</p></span>
                               </div>
                             )}
                           </div>
@@ -298,23 +299,23 @@ export default function CustomTable() {
                     </TableCell>
                   )
                 )}
-                <TableCell><div className="column-header"><strong>Actions</strong></div></TableCell>
+                <TableCell className='actions'><strong>Actions</strong></TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {currentRows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} className='data-row'>
                   {dynamicColumns.map((col, idx) =>
                     visibleColumns[idx] && (
-                      <TableCell align='left' key={col} style={{ width: columnWidths[idx] }}>
+                      <TableCell align='left' key={col} style={{ width: columnWidths[idx], border:'none' }}>
                         {row[col]}
                       </TableCell>
                     )
                   )}
                   <TableCell align='left'>
-                    <EditOutlinedIcon style={{ cursor: 'pointer' }} />
-                    <DeleteOutlinedIcon style={{ cursor: 'pointer' }} />
+                    <EditOutlinedIcon onClick={() => console.log(row)} style={{ cursor: 'pointer' }} />
+                    <DeleteOutlinedIcon onClick={() => handleDelete(row.id)} style={{ cursor: 'pointer' }} />
                   </TableCell>
                 </TableRow>
               ))}
