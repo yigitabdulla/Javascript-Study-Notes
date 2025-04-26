@@ -44,6 +44,7 @@ export default function CustomTable() {
         [bound]: value ? Number(value) : ''
       }
     }));
+    //example output for price column --> price: { min: 100, max: 500 },
   };
 
 
@@ -57,8 +58,9 @@ export default function CustomTable() {
         // Special case: if the column is 'age' and searchValue is a range
         if (col === 'price' && typeof searchValue === 'object') {
           const { min, max } = searchValue;
-          const age = Number(item[col]);
-          return (!min || age >= min) && (!max || age <= max);
+          const age = Number(item[col]); //whole column values
+          //console.log(age)
+          return (!min || age >= min) && (!max || age <= max); //returning valus between min and max
         }
 
         // Normal string filtering
