@@ -62,6 +62,15 @@
     margin-right: 8px;
 }
 
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    font-size: 1.5em;
+    gap: 10px;
+}
+
 .column-header {
     padding: 5px;
     display: flex;

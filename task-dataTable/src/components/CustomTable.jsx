@@ -13,6 +13,7 @@ import 'react-resizable/css/styles.css';
 import { MenuItem, Select } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function CustomTable() {
   const [dynamicColumns, setDynamicColumns] = useState(Object.keys(dummyData[0] || {}));
@@ -29,6 +30,19 @@ export default function CustomTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isResizing, setIsResizing] = useState(false);
   const [draggedColIndex, setDraggedColIndex] = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
+
+
+  useEffect(() => {
+    setVisibleColumns(prev => [...prev, true]);
+
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [])
 
   //State change for single column search
   const handleSearch = (column, value) => {
@@ -178,14 +192,14 @@ export default function CustomTable() {
     setColumnWidths(newColumnWidths);
   };
 
-  const handleDelete = (id) => {
+  /* const handleDelete = (id) => {
     const newData = filteredData.filter(data => data.id !== id)
     setFilteredData(newData)
-  }
+  } */
 
   return (
     <div className="table-wrapper">
-      <h1>User Table</h1>
+      <h1>Stock Table</h1>
 
 
       <div className="table-top">
@@ -213,12 +227,20 @@ export default function CustomTable() {
                   {col}
                 </label>
               ))}
+              <label className='dropdown-item'>
+                <input
+                  type="checkbox"
+                  checked={visibleColumns[visibleColumns.length - 1]}
+                  onChange={() => toggleColumnVisibility(visibleColumns.length - 1)}
+                />
+                actions
+              </label>
             </div>
           )}
         </div>
       </div>
 
-      <div className="table-container">
+      {isLoading ? <div className='loading'>Data is loading <CircularProgress /></div> : <div className="table-container">
         <TableContainer component={Paper} style={{ overflowX: 'auto' }}>
           <Table sx={{ minWidth: 450 }} aria-label="custom table">
             <TableHead>
@@ -305,7 +327,7 @@ export default function CustomTable() {
                     </TableCell>
                   )
                 )}
-                <TableCell className='actions'><strong>Actions</strong></TableCell>
+                {visibleColumns[visibleColumns.length - 1] && <TableCell className='actions'><strong>Actions</strong></TableCell>}
               </TableRow>
             </TableHead>
 
@@ -314,21 +336,21 @@ export default function CustomTable() {
                 <TableRow key={row.id} className='data-row'>
                   {dynamicColumns.map((col, idx) =>
                     visibleColumns[idx] && (
-                      <TableCell align='left' key={col} style={{ width: columnWidths[idx], border:'none' }}>
+                      <TableCell align='left' key={col} style={{ width: columnWidths[idx], border: 'none' }}>
                         {row[col]}
                       </TableCell>
                     )
                   )}
-                  <TableCell align='left'>
+                  {visibleColumns[visibleColumns.length - 1] && <TableCell align='left'>
                     <EditOutlinedIcon onClick={() => console.log(row)} style={{ cursor: 'pointer' }} />
                     <DeleteOutlinedIcon onClick={() => handleDelete(row.id)} style={{ cursor: 'pointer' }} />
-                  </TableCell>
+                  </TableCell>}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </div>}
 
       {/* Pagination Controls */}
       <div className="pagination-container">
